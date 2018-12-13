@@ -10,6 +10,7 @@
             font-family: arial, sans-serif;
             border-collapse: collapse;
             width: 100%;
+            border: 2px solid black;
         }
 
         td,
@@ -45,10 +46,11 @@
 
 <body>
 
-    <img  src="https://media.licdn.com/dms/image/C4D0BAQE3e8kHI113pg/company-logo_200_200/0?e=2159024400&v=beta&t=_3GR03zZyxLcO-vSpp_h1cazV-Oz5wn6F6hlv1qogC8" style="width:50px;height:50px;">
-    
+    <img   src="https://media.licdn.com/dms/image/C4D0BAQE3e8kHI113pg/company-logo_200_200/0?e=2159024400&v=beta&t=_3GR03zZyxLcO-vSpp_h1cazV-Oz5wn6F6hlv1qogC8" style="width:50px;height:50px;">
+    <p id="para"></p>
     
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    
     <table style="width:100%">
         <ul id="liste"></ul>
     </table>
@@ -84,9 +86,13 @@
             document.cookie = "antalbesog=1;"
         }
 
+        //velkommen besked 
+        var antalbesogplus = (parseInt(findCookieBeskrivelse("antalbesog"))+1);
+        document.getElementById("para").innerHTML = "Hej "+uniktIDtilCookies+", klokken er "+ new Date().toLocaleTimeString() + " og du har besøgt denne side "+ findCookieBeskrivelse('antalbesog') +" gange."
+        
         //find cookie
         function findCookieBeskrivelse(name) {
-        var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+        var match = document.cookie.match(new RegExp('(^| )' + name  + '=([^;]+)'));
         if (match) return match[2];
         }
         

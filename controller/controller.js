@@ -16,7 +16,7 @@ exports.hent_data = function(req,res){
           });
 
         //select * from tablename
-        con.query("select * from kontotable;", function (err, result) {
+        con.query("select * from kontotable ORDER BY brugerID DESC;", function (err, result) {
           if (err) throw err;
           console.log("selected *");
         res.send(result);

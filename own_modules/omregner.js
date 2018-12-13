@@ -1,6 +1,12 @@
-function wattToKwatt(watts){
-    kilowatts = watts/1000; 
-    return kilowatts
+function kronertileuro(kroner){
+    euro = kroner/7.46; 
+    return euro;
+}   
+function eurotilkroner(euro){
+    kroner = euro*7.46;
+    return kroner;
 }   
 
-exports.calcsWatt = wattToKwatt;
+exports.calceurotilkroner = eurotilkroner;
+
+exports.calckronertileuro = kronertileuro;

@@ -22,30 +22,114 @@
         tr:nth-child(even) {
             background-color: grey;
         }
+        #bruger{
+            color: blue;
+        }
+        img {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+             padding: 5px;
+            width: 150px;
+}
+        .moneybobs{
+            color: green
+        }
+
+
     </style>
 </head>
 
 <body>
 
+    <img  src="https://media.licdn.com/dms/image/C4D0BAQE3e8kHI113pg/company-logo_200_200/0?e=2159024400&v=beta&t=_3GR03zZyxLcO-vSpp_h1cazV-Oz5wn6F6hlv1qogC8">
+    
+    
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-    <button onclick="hentpare()">skrret</button>
+    <button onclick="hentpare()">test knap</button>
     <table style="width:100%">
         <ul id="liste"></ul>
     </table>
+    
+    
+    <table style="width:100%">
+        <tr>
+            <th>Brugertype</th>
+            <th>Navn</th>
+            <th>brugerID</th>
+        </tr>
+        <tr>
+            <td id="idbrugertype">data her</td>
+            <td id="idnavn">data her</td>
+            <td id="idbrugerid">data her</td>
+        </tr>
+    </table>
+
 
     <script>
        
+        var uniktIDtilCookies = prompt("Skriv venligst et unikt ID");
+        document.cookie = "uniktID="+uniktIDtilCookies+";";
+        
+        //increment ID
+        var harduvaretherfor = confirm("har du besøgt denne side før? hvis ja klik confirm.");
+        if (harduvaretherfor){
+            var antalbesogt = findCookieBeskrivelse("antalbesog");
+            console.log(antalbesogt)
+            var antalbesogplus = (parseInt(antalbesogt)+1);
+            document.cookie = "antalbesog="+antalbesogplus+";"
+        }else{
+            document.cookie = "antalbesog=1;"
+        }
+
+        //find cookie
+        function findCookieBeskrivelse(name) {
+        var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+        if (match) return match[2];
+        }
+        
+        secookies();
+        function secookies(){
+            console.log(document.cookie)
+        }
+
+
+       var startappend = "<tr><th id='brugerid' >brugerID</th><th>kontonavn</th><th>kontonummer</th><th>indestaaende</th><th>rente</th></tr> "
+       $('#liste').append($(startappend));
+
+       
+       //se bruger 
+       function sebruger(){
+           
+           var xmlhttp = new XMLHttpRequest();
+           xmlhttp.onreadystatechange = function(){
+            if (this.readyState == 4 && this.status == 200) {
+                
+                var obj = JSON.parse(this.response)
+
+                document.getElementById("idbrugertype").innerHTML = obj[0].brugertype;
+                document.getElementById("idnavn").innerHTML =  obj[0].navn;
+                document.getElementById("idbrugerid").innerHTML = obj[0].brugerID;
+
+           }
+
+           
+           xmlhttp.open("POST", "http://localhost:8080/hentdata", true);
+                xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                xmlhttp.send();
+       }
+       
+    }
+       
+       
+
+
+
+
+
        
        
        
-       
-       
-       
-       
-       
-       
-       
-      /* 
+      
        hentpare();
 
         function hentpare() {
@@ -58,28 +142,22 @@
                     //laver det om til object
                     var obj = JSON.parse(this.response)
                     
-                    var startappend = "<tr><th>onoff</th><th>normiel strøm</th><th>aktuel strøm</th><th>lysintensitet</th><th>farve</th><th>uniktID</th><th>hardwareID</th><th>softwareID</th></tr> "
-                    $('#liste').append($(startappend));
-
+                    
                     for (let index = 0; index < obj.length; index++) {
                         var start = '<tr>';
 
-                        var onoff = '<td>'+ obj[index].onoff+' </td>'
-                        var normiel = '<td>'+ obj[index].normielStrom +' </td>'
-                        var aktuel = '<td>'+ obj[index].aktuelStrom +' </td>'
-                        var farve = '<td>'+ obj[index].farve +' </td>'
-                        var uniktID = '<td>'+ obj[index].uniktID +' </td>'
-                        var hardwareID = '<td>'+ obj[index].hardwareID +' </td>'
-                        var softwareID = '<td>'+ obj[index].softwareID +' </td>'
-                        var lysintensitet = '<td>'+ obj[index].lysintensitet +' </td>'
-
+                        var brugerID = '<td onclick="sebruger()" >'+ obj[index].brugerID+' </td>'
+                        var kontonavn = '<td>'+ obj[index].kontonavn +' </td>'
+                        var kontonummer = '<td>'+ obj[index].kontonummer +' </td>'
+                        var indestaaende = '<td class="moneybobs">'+ obj[index].indestaaende +' </td>'
+                        var rente = '<td >'+ obj[index].rente +' </td>'
+                        
                         var slut = '</tr>'
 
-                        var finallinje = start+onoff+normiel+aktuel+lysintensitet+farve+uniktID+hardwareID+softwareID+slut;
+                        var finallinje = start+brugerID+kontonavn+kontonummer+indestaaende+rente+slut;
                         $('#liste').append($(finallinje));
 
                     }
-
 
 
                 }
@@ -89,7 +167,7 @@
             xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xmlhttp.send();
         }
-        */
+        
     </script>
 </body>
 

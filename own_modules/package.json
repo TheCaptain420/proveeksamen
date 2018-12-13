@@ -9,12 +9,12 @@
     },
     "repository": {
       "type": "git",
-      "url": "git+https://github.com/andracs/cvrapi-i-nodejs-eksempel.git"
+      "url": "git+"
     },
     "author": "Mads Nielsen, en datamatikerstuderende i Næstved",
     "license": "ISC",
     "bugs": {
-      "url": "https://github.com/andracs/cvrapi-i-nodejs-eksempel/issues"
+      "url": "https://github.com/TheCaptain420/proveeksamen"
     },
-    "homepage": "https://github.com/andracs/cvrapi-i-nodejs-eksempel#readme"
+    "homepage": "https://github.com/TheCaptain420/proveeksamen"
   }

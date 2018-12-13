@@ -23,7 +23,11 @@ var mysql = require('mysql');
 app.get('/',function(req,res){
     res.sendFile(__dirname + '/view/index.html');
 })
-
+/*
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+*/
 
 var routes = require('./route/routes')
 routes(app)

@@ -10,13 +10,13 @@ exports.hent_data = function(req,res){
     con.connect(function(err) {
         if (err) throw err;
         console.log("Connected!");
-        con.query("use fortesteksamen;", function (err, result) {
+        con.query("use proveeksamen;", function (err, result) {
             if (err) throw err;
             console.log("connected to schema");
           });
 
         //select * from tablename
-        con.query("select * from ikeapare", function (err, result) {
+        con.query("select * from kontotable;", function (err, result) {
           if (err) throw err;
           console.log("selected *");
         res.send(result);
@@ -27,24 +27,55 @@ exports.hent_data = function(req,res){
 
 
 
-//lav en post request til at indsætte ny pære her. Husk at rette i routes.
-/*
-app.post('/opret',function(req,res){
-    con.connect(function(err) {
+//lav en post request til at oprette nye brugere
+
+exports.opret_kunde = function(req,res){
+  var con = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "1234"
+  }); 
+  con.connect(function(err) {
         if (err) throw err;
         console.log("Connected!");
-        con.query("use fortesteksamen;", function (err, result) {
+        con.query("use proveeksamen;", function (err, result) {
             if (err) throw err;
             console.log("connected to schema");
           });
         
-          //
-          con.query("insert into ikeapare(onoff,normielStrom,aktuelStrom,lysintensitet,farve,uniktID,hardwareID,softwareID) values ("+req.body.onoff+","+req.body.normielStrom +","+req.body.aktuelStrom +","+req.body.lysintentitet +",'"+req.body.farve +"','"+req.body.uniktID +"','"+req.body.hardwareID +"','"+req.body.softwareID +"'); ", function (err, result) {
+          //req.body.whatever
+          con.query("insert into BecBankbrugere(brugertype,navn,brugerID,brugernavn,passwordet) values ('"+req.body.brugertype+"','"+req.body.navn+"',"+req.body.brugerID+",'"+req.body.brugernavn+"','"+req.body.passwordet+"'); ", function (err, result) {
             if (err) throw err;
-            console.log("selected *");
+            console.log("kundeopretttet *");
           res.send("Det virker, akak den kom igennem");
           });
         });
 
 
-});*/
+}
+
+exports.hent_data_for_en = function(req,res){
+  var con = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "1234"
+  }); 
+
+  con.connect(function(err) {
+    if (err) throw err;
+    console.log("Connected!");
+    con.query("use proveeksamen;", function (err, result) {
+        if (err) throw err;
+        console.log("connected to schema");
+      });
+    
+      //req.body.whatever
+      con.query(" select navn,brugertype,brugerID from BecBankbrugere where brugerID="+req.body.brugerID+"", function (err, result) {
+        if (err) throw err;
+        console.log("kunde hentet *");
+      res.send(result);
+      });
+    });
+
+
+}

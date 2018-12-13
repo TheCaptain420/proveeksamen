@@ -34,6 +34,10 @@
         .moneybobs{
             color: green
         }
+        .klikker{
+            background-color: red; 
+
+        }
 
 
     </style>
@@ -41,17 +45,16 @@
 
 <body>
 
-    <img  src="https://media.licdn.com/dms/image/C4D0BAQE3e8kHI113pg/company-logo_200_200/0?e=2159024400&v=beta&t=_3GR03zZyxLcO-vSpp_h1cazV-Oz5wn6F6hlv1qogC8">
+    <img  src="https://media.licdn.com/dms/image/C4D0BAQE3e8kHI113pg/company-logo_200_200/0?e=2159024400&v=beta&t=_3GR03zZyxLcO-vSpp_h1cazV-Oz5wn6F6hlv1qogC8" style="width:50px;height:50px;">
     
     
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-    <button onclick="hentpare()">test knap</button>
     <table style="width:100%">
         <ul id="liste"></ul>
     </table>
     
     
-    <table style="width:100%">
+    <table style="width:50%">
         <tr>
             <th>Brugertype</th>
             <th>Navn</th>
@@ -60,7 +63,7 @@
         <tr>
             <td id="idbrugertype">data her</td>
             <td id="idnavn">data her</td>
-            <td id="idbrugerid">data her</td>
+            <td id="idbrugerid" >data her</td>
         </tr>
     </table>
 
@@ -98,12 +101,18 @@
 
        
        //se bruger 
-       function sebruger(){
-           
-           var xmlhttp = new XMLHttpRequest();
+       function sebruger(her){
+           console.log("det her"+her)
+           var params = 'brugerID='+her+';';
+           console.log(params)
+
+        var xmlhttp = new XMLHttpRequest();
+
            xmlhttp.onreadystatechange = function(){
+               console.log(this.readyState +"-"+ this.status)
             if (this.readyState == 4 && this.status == 200) {
-                
+                console.log("det her virker")
+                console.log(this.response)
                 var obj = JSON.parse(this.response)
 
                 document.getElementById("idbrugertype").innerHTML = obj[0].brugertype;
@@ -113,10 +122,11 @@
            }
 
            
-           xmlhttp.open("POST", "http://localhost:8080/hentdata", true);
-                xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                xmlhttp.send();
+                
        }
+       xmlhttp.open("POST", "http://localhost:8080/hentdata", true);
+                xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                xmlhttp.send(params);
        
     }
        
@@ -146,7 +156,7 @@
                     for (let index = 0; index < obj.length; index++) {
                         var start = '<tr>';
 
-                        var brugerID = '<td onclick="sebruger()" >'+ obj[index].brugerID+' </td>'
+                        var brugerID = '<td class="klikker" id="'+obj[index].brugerID+'" onclick="sebruger(this.id)" >'+ obj[index].brugerID+' </td>'
                         var kontonavn = '<td>'+ obj[index].kontonavn +' </td>'
                         var kontonummer = '<td>'+ obj[index].kontonummer +' </td>'
                         var indestaaende = '<td class="moneybobs">'+ obj[index].indestaaende +' </td>'
